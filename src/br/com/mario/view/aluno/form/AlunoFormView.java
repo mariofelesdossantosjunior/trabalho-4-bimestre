@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.mario.view.turma.form;
+package br.com.mario.view.aluno.form;
 
-import br.com.mario.model.Atividade;
-import br.com.mario.model.Instrutor;
+import br.com.mario.model.Aluno;
 import br.com.mario.model.Turma;
 import br.com.mario.util.GenericComboBoxModel;
+import static br.com.mario.util.Util.checkInt;
 import java.text.ParseException;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
@@ -19,53 +20,48 @@ import javax.swing.text.MaskFormatter;
  *
  * @author mario
  */
-public class TurmaFormView extends javax.swing.JDialog {
+public class AlunoFormView extends javax.swing.JDialog {
 
-    private final TurmaFormController controller;
-    private final MaskFormatter mfDataInicio;
-    private final MaskFormatter mfDataFim;
-    private final MaskFormatter mfHora;
-    private final GenericComboBoxModel<Instrutor> instrutorModel;
-    private final GenericComboBoxModel<Atividade> atividadeModel;
+    private final AlunoFormController controller;
+    private final MaskFormatter mfDataMatricula;
+    private final MaskFormatter mfNascimento;
+    private final MaskFormatter mfTelefone;
+    private final GenericComboBoxModel<Turma> turmaModel;
 
     /**
      * Creates new form EstadoFormView1
      *
      * @param parent
      * @param modal
-     * @param turma
+     * @param aluno
      * @throws java.text.ParseException
      */
-    public TurmaFormView(java.awt.Frame parent, boolean modal, Turma turma) throws ParseException {
+    public AlunoFormView(java.awt.Frame parent, boolean modal, Aluno aluno) throws ParseException {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Cadastro de Turma");
+        this.setTitle("Cadastro de Aluno");
 
-        mfDataInicio = new MaskFormatter("##/##/####");
-        mfDataInicio.setPlaceholderCharacter('_');
-        mfDataInicio.install(tfDataInicio);
+        mfDataMatricula = new MaskFormatter("##/##/####");
+        mfDataMatricula.setPlaceholderCharacter('_');
+        mfDataMatricula.install(tfDataMatricula);
 
-        mfDataFim = new MaskFormatter("##/##/####");
-        mfDataFim.setPlaceholderCharacter('_');
-        mfDataFim.install(tfDataFim);
-
-        mfHora = new MaskFormatter("##:##");
-        mfHora.setPlaceholderCharacter('_');
-        mfHora.install(tfHorario);
+        mfNascimento = new MaskFormatter("##/##/####");
+        mfNascimento.setPlaceholderCharacter('_');
+        mfNascimento.install(tfNascimento);
         
-        controller = new TurmaFormController(this);
+        mfTelefone = new MaskFormatter("(##) #####-####");
+        mfTelefone.setPlaceholderCharacter('_');
+        mfTelefone.install(tfTelefone);
 
-        instrutorModel = new GenericComboBoxModel<>();
-        cbInstrutor.setModel(instrutorModel);
-        controller.loadInstrutores();
+        controller = new AlunoFormController(this);
 
-        atividadeModel = new GenericComboBoxModel<>();
-        cbAtividade.setModel(atividadeModel);
-        controller.loadAtividades();
+        turmaModel = new GenericComboBoxModel<>();
+        cbTurma.setModel(turmaModel);
+        controller.loadTurmas();
 
-        if (turma != null) {
-            controller.edit(turma);
+        if (aluno != null) {
+            controller.edit(aluno);
         }
 
     }
@@ -86,12 +82,14 @@ public class TurmaFormView extends javax.swing.JDialog {
 
         btCancelar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
-        cbInstrutor = new javax.swing.JComboBox();
-        cbAtividade = new javax.swing.JComboBox();
-        tfDataInicio = new javax.swing.JFormattedTextField();
-        tfDuracao = new javax.swing.JTextField();
-        tfDataFim = new javax.swing.JFormattedTextField();
-        tfHorario = new javax.swing.JFormattedTextField();
+        cbTurma = new javax.swing.JComboBox();
+        tfDataMatricula = new javax.swing.JFormattedTextField();
+        tfAltura = new javax.swing.JTextField();
+        tfNascimento = new javax.swing.JFormattedTextField();
+        tfTelefone = new javax.swing.JFormattedTextField();
+        tfPeso = new javax.swing.JTextField();
+        tfNome = new javax.swing.JTextField();
+        tfEndereco = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -113,29 +111,45 @@ public class TurmaFormView extends javax.swing.JDialog {
             }
         });
 
-        cbInstrutor.setBorder(javax.swing.BorderFactory.createTitledBorder("Instrutor"));
+        cbTurma.setBorder(javax.swing.BorderFactory.createTitledBorder("Turma"));
 
-        cbAtividade.setBorder(javax.swing.BorderFactory.createTitledBorder("Atividade"));
+        tfDataMatricula.setBackground(new java.awt.Color(214, 217, 223));
+        tfDataMatricula.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Matricula"));
+        tfDataMatricula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
-        tfDataInicio.setBackground(new java.awt.Color(214, 217, 223));
-        tfDataInicio.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Inicio"));
-        tfDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-
-        tfDuracao.setBackground(new java.awt.Color(214, 217, 223));
-        tfDuracao.setBorder(javax.swing.BorderFactory.createTitledBorder("Duração"));
-        tfDuracao.addKeyListener(new java.awt.event.KeyAdapter() {
+        tfAltura.setBackground(new java.awt.Color(214, 217, 223));
+        tfAltura.setBorder(javax.swing.BorderFactory.createTitledBorder("Altura"));
+        tfAltura.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfDuracaoKeyReleased(evt);
+                tfAlturaKeyReleased(evt);
             }
         });
 
-        tfDataFim.setBackground(new java.awt.Color(214, 217, 223));
-        tfDataFim.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Fim"));
-        tfDataFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        tfNascimento.setBackground(new java.awt.Color(214, 217, 223));
+        tfNascimento.setBorder(javax.swing.BorderFactory.createTitledBorder("Nascimento"));
+        tfNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
-        tfHorario.setBackground(new java.awt.Color(214, 217, 223));
-        tfHorario.setBorder(javax.swing.BorderFactory.createTitledBorder("Horário"));
-        tfHorario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        tfTelefone.setBackground(new java.awt.Color(214, 217, 223));
+        tfTelefone.setBorder(javax.swing.BorderFactory.createTitledBorder("Telefone"));
+        try {
+            tfTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        tfPeso.setBackground(new java.awt.Color(214, 217, 223));
+        tfPeso.setBorder(javax.swing.BorderFactory.createTitledBorder("Peso"));
+        tfPeso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfPesoKeyReleased(evt);
+            }
+        });
+
+        tfNome.setBackground(new java.awt.Color(214, 217, 223));
+        tfNome.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome"));
+
+        tfEndereco.setBackground(new java.awt.Color(214, 217, 223));
+        tfEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,37 +158,45 @@ public class TurmaFormView extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbInstrutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbAtividade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbTurma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(tfHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(tfDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tfDataMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(tfNome)
+                    .addComponent(tfEndereco))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addComponent(cbInstrutor, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfDataMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbAtividade, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -193,28 +215,42 @@ public class TurmaFormView extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void tfDuracaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDuracaoKeyReleased
-        checkInt();
-    }//GEN-LAST:event_tfDuracaoKeyReleased
+    private void tfAlturaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAlturaKeyReleased
+        checkInt(tfAltura);
+    }//GEN-LAST:event_tfAlturaKeyReleased
+
+    private void tfPesoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPesoKeyReleased
+        checkInt(tfPeso);
+    }//GEN-LAST:event_tfPesoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JComboBox cbAtividade;
-    private javax.swing.JComboBox cbInstrutor;
-    private javax.swing.JFormattedTextField tfDataFim;
-    private javax.swing.JFormattedTextField tfDataInicio;
-    private javax.swing.JTextField tfDuracao;
-    private javax.swing.JFormattedTextField tfHorario;
+    private javax.swing.JComboBox cbTurma;
+    private javax.swing.JTextField tfAltura;
+    private javax.swing.JFormattedTextField tfDataMatricula;
+    private javax.swing.JTextField tfEndereco;
+    private javax.swing.JFormattedTextField tfNascimento;
+    private javax.swing.JTextField tfNome;
+    private javax.swing.JTextField tfPeso;
+    private javax.swing.JFormattedTextField tfTelefone;
     // End of variables declaration//GEN-END:variables
 
-    public GenericComboBoxModel<Instrutor> getInstrutorModel() {
-        return instrutorModel;
+    public AlunoFormController getController() {
+        return controller;
     }
 
-    public GenericComboBoxModel<Atividade> getAtividadeModel() {
-        return atividadeModel;
+    public MaskFormatter getMfDataMatricula() {
+        return mfDataMatricula;
+    }
+
+    public MaskFormatter getMfNascimento() {
+        return mfNascimento;
+    }
+
+    public GenericComboBoxModel<Turma> getTurmaModel() {
+        return turmaModel;
     }
 
     public JButton getBtCancelar() {
@@ -225,29 +261,36 @@ public class TurmaFormView extends javax.swing.JDialog {
         return btSalvar;
     }
 
-    public JFormattedTextField getTfDataFim() {
-        return tfDataFim;
+    public JComboBox getCbTurma() {
+        return cbTurma;
     }
 
-    public JFormattedTextField getTfDataInicio() {
-        return tfDataInicio;
+    public JTextField getTfAltura() {
+        return tfAltura;
     }
 
-    public JTextField getTfDuracao() {
-        return tfDuracao;
+    public JFormattedTextField getTfDataMatricula() {
+        return tfDataMatricula;
     }
 
-    public JTextField getTfHorario() {
-        return tfHorario;
+    public JFormattedTextField getTfNascimento() {
+        return tfNascimento;
     }
 
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=METODOS=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--\\
-    private void checkInt() {
-        try {
-            Integer.parseInt(tfDuracao.getText());
-        } catch (Exception e) {
-            tfDuracao.setText("");
-        }
+    public JTextField getTfEndereco() {
+        return tfEndereco;
+    }
+
+    public JTextField getTfNome() {
+        return tfNome;
+    }
+
+    public JTextField getTfPeso() {
+        return tfPeso;
+    }
+
+    public JFormattedTextField getTfTelefone() {
+        return tfTelefone;
     }
 
 }

@@ -1,46 +1,47 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.mario.view.turma.list;
+package br.com.mario.view.aluno.view;
 
-import br.com.mario.model.Turma;
+import br.com.mario.model.Aluno;
 import br.com.mario.util.CellButtonRender;
-import br.com.mario.util.tablemodel.TurmaTableModel;
-import br.com.mario.view.turma.form.TurmaFormView;
+import br.com.mario.util.tablemodel.AlunoTableModel;
+import br.com.mario.view.aluno.form.AlunoFormView;
 import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JTable;
 
 /**
  *
  * @author mario
  */
-public class TurmaListView extends javax.swing.JFrame {
 
-    private final TurmaListController controller;
-    private final TurmaTableModel turmaTableModel;
+
+public class AlunoListView extends javax.swing.JFrame {
+
+    private final AlunoListController controller;
+    private final AlunoTableModel alunoTableModel;
 
     /**
      * Creates new form EstadoView
      */
-    public TurmaListView() {
+    public AlunoListView() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Lista de Turmas");
+        this.setTitle("Lista de Alunos");
 
-        controller = new TurmaListController(this);
+        controller = new AlunoListController(this);
 
-        turmaTableModel = new TurmaTableModel(new ArrayList<>());
-        tbTurmas.setModel(turmaTableModel);
+        alunoTableModel = new AlunoTableModel(new ArrayList<>());
+        tbAlunos.setModel(alunoTableModel);
 
-        tbTurmas.setRowHeight(30);
-        tbTurmas.getColumn("Editar").setCellRenderer(new CellButtonRender("Editar", "src/resources/ic_edit.png"));
-        tbTurmas.getColumn("Remover").setCellRenderer(new CellButtonRender("Remover", "src/resources/ic_remove.png"));
+        tbAlunos.setRowHeight(30);
+        tbAlunos.getColumn("Editar").setCellRenderer(new CellButtonRender("Editar", "src/resources/ic_edit.png"));
+        tbAlunos.getColumn("Remover").setCellRenderer(new CellButtonRender("Remover", "src/resources/ic_remove.png"));
 
-        controller.loadTurmas();
+        controller.loadAlunos();
     }
 
     /**
@@ -54,7 +55,7 @@ public class TurmaListView extends javax.swing.JFrame {
 
         jbNovo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbTurmas = new javax.swing.JTable();
+        tbAlunos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,7 +68,7 @@ public class TurmaListView extends javax.swing.JFrame {
             }
         });
 
-        tbTurmas.setModel(new javax.swing.table.DefaultTableModel(
+        tbAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,12 +79,12 @@ public class TurmaListView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tbTurmas.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbAlunos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbTurmasMouseClicked(evt);
+                tbAlunosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbTurmas);
+        jScrollPane1.setViewportView(tbAlunos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,75 +116,63 @@ public class TurmaListView extends javax.swing.JFrame {
         edit(null);
     }//GEN-LAST:event_jbNovoActionPerformed
 
-    private void tbTurmasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTurmasMouseClicked
-        int rowSelect = tbTurmas.getSelectedRow();
+    private void tbAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAlunosMouseClicked
+        int rowSelect = tbAlunos.getSelectedRow();
 
-        TurmaTableModel tableModel = (TurmaTableModel) tbTurmas.getModel();
+        AlunoTableModel tableModel = (AlunoTableModel) tbAlunos.getModel();
 
         if (rowSelect != -1) {
 
-            Turma turma = tableModel.getValueAtRow(rowSelect);
+            Aluno aluno = tableModel.getValueAtRow(rowSelect);
 
             //Edit
-            if (tbTurmas.getSelectedColumn() == 5) {
-                edit(turma);
+            if (tbAlunos.getSelectedColumn() == 8) {
+                edit(aluno);
             }
             //Remove
-            if (tbTurmas.getSelectedColumn() == 6) {
-                remove(turma);
+            if (tbAlunos.getSelectedColumn() == 9) {
+                remove(aluno);
             }
         }
-    }//GEN-LAST:event_tbTurmasMouseClicked
+    }//GEN-LAST:event_tbAlunosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbNovo;
-    private javax.swing.JTable tbTurmas;
+    private javax.swing.JTable tbAlunos;
     // End of variables declaration//GEN-END:variables
 
     /**
      * Função responsavel pela remoção
      *
-     * @param turma
+     * @param aluno
      */
-    private void remove(Turma turma) {
-        controller.remove(turma);
-        controller.loadTurmas();
+    private void remove(Aluno aluno) {
+        controller.remove(aluno);
+        controller.loadAlunos();
     }
 
     /*/*
      Função responsavel pela edição
      */
-    private void edit(Turma turma) {
+    private void edit(Aluno aluno) {
         boolean closeDialog;
         try {
-            closeDialog = new TurmaFormView(this, true, turma).openDialog();
+            closeDialog = new AlunoFormView(this, true, aluno).openDialog();
             if (closeDialog) {
-                controller.loadTurmas();
+                controller.loadAlunos();
             }
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
 
+    public AlunoTableModel getTurmaTableModel() {
+        return alunoTableModel;
+    }
+
     public JButton getJbNovo() {
         return jbNovo;
-    }
-
-    public void setJbNovo(JButton jbNovo) {
-        this.jbNovo = jbNovo;
-    }
-
-    public JTable getTbEstados() {
-        return tbTurmas;
-    }
-
-    public void setTbEstados(JTable tbEstados) {
-        this.tbTurmas = tbEstados;
-    }
-
-    public TurmaTableModel getTurmaTableModel() {
-        return turmaTableModel;
     }
 
 }

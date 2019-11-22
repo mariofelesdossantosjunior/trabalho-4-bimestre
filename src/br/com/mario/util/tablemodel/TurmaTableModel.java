@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TurmaTableModel extends GenericTableModel<Turma> {
 
-    private String[] colunas = {"Codigo", "Horário", "Duração", "Data Inicio", "Data Fim", "Editar", "Remover"};
+    private String[] colunas = {"Codigo", "Nome", "Horário", "Duração", "Data Inicio", "Data Fim", "Editar", "Remover"};
 
     public TurmaTableModel(List<Turma> rows) {
         super(rows);
@@ -29,16 +29,18 @@ public class TurmaTableModel extends GenericTableModel<Turma> {
             case 0:
                 return rows.get(row).getId();
             case 1:
-                return rows.get(row).getHorario();
+                return rows.get(row).getNome();
             case 2:
-                return rows.get(row).getDuracao();
+                return rows.get(row).getHorario();
             case 3:
-                return convertToString(rows.get(row).getDataInicio());
+                return rows.get(row).getDuracao();
             case 4:
-                return convertToString(rows.get(row).getDataFim());
+                return convertToString(rows.get(row).getDataInicio());
             case 5:
-                return "Editar";
+                return convertToString(rows.get(row).getDataFim());
             case 6:
+                return "Editar";
+            case 7:
                 return "Remover";
 
         }

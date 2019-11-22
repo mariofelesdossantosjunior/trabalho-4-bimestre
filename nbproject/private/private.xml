@@ -3,8 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mario/NetBeansProjects/trabalho/src/br/com/mario/view/menu/Menu.java</file>
-            <file>file:/home/mario/NetBeansProjects/trabalho/src/br/com/mario/view/turma/list/TurmaListView.java</file>
+            <file>file:/home/mario/NetBeansProjects/trabalho/src/br/com/mario/view/instrutor/list/InstrutorListView.java</file>
+            <file>file:/home/mario/NetBeansProjects/trabalho/src/br/com/mario/view/instrutor/form/InstrutorFormView.java</file>
         </group>
     </open-files>
 </project-private>

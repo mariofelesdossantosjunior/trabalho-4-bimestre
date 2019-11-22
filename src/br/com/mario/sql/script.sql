@@ -14,139 +14,152 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `academia` DEFAULT CHARACTER SET utf8 ;
+USE `academia` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`instrutor`
+-- Table `atividade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`instrutor` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `atividade` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(120) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `instrutor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `instrutor` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `rg` VARCHAR(50) NOT NULL,
   `nome` VARCHAR(120) NOT NULL,
-  `nascimento` DATE NULL,
-  `titulacao` VARCHAR(50) NULL,
+  `nascimento` DATE NULL DEFAULT NULL,
+  `titulacao` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 10
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`telefone`
+-- Table `turma`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`telefone` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `numero` VARCHAR(20) NOT NULL,
-  `tipo` VARCHAR(50) NULL,
-  `instrutor_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_telefone_instrutor_idx` (`instrutor_id` ASC),
-  CONSTRAINT `fk_telefone_instrutor`
-    FOREIGN KEY (`instrutor_id`)
-    REFERENCES `mydb`.`instrutor` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`atividade`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`atividade` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(120) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`turma`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`turma` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `turma` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `horario` VARCHAR(50) NOT NULL,
   `duracao` FLOAT NOT NULL,
   `datainicio` DATE NOT NULL,
   `datafim` DATE NOT NULL,
-  `instrutor_id` INT NOT NULL,
-  `atividade_id` INT NOT NULL,
-  PRIMARY KEY (`idturma`),
+  `instrutor_id` INT(11) NOT NULL,
+  `atividade_id` INT(11) NOT NULL,
+  `nome` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
   INDEX `fk_turma_instrutor1_idx` (`instrutor_id` ASC),
   INDEX `fk_turma_atividade1_idx` (`atividade_id` ASC),
-  CONSTRAINT `fk_turma_instrutor1`
-    FOREIGN KEY (`instrutor_id`)
-    REFERENCES `mydb`.`instrutor` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_turma_atividade1`
     FOREIGN KEY (`atividade_id`)
-    REFERENCES `mydb`.`atividade` (`id`)
+    REFERENCES `atividade` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_turma_instrutor1`
+    FOREIGN KEY (`instrutor_id`)
+    REFERENCES `instrutor` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`aluno`
+-- Table `aluno`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`aluno` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `aluno` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `datamatricula` DATE NOT NULL,
   `nome` VARCHAR(120) NOT NULL,
-  `endereco` VARCHAR(200) NULL,
-  `telefone` VARCHAR(20) NULL,
-  `nascimento` DATE NULL,
-  `altura` FLOAT NULL,
-  `peso` FLOAT NULL,
-  `turma_idturma` INT NULL,
+  `endereco` VARCHAR(200) NULL DEFAULT NULL,
+  `telefone` VARCHAR(20) NULL DEFAULT NULL,
+  `nascimento` DATE NULL DEFAULT NULL,
+  `altura` FLOAT NULL DEFAULT NULL,
+  `peso` FLOAT NULL DEFAULT NULL,
+  `turma_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_aluno_turma1_idx` (`turma_idturma` ASC),
+  INDEX `fk_aluno_turma1_idx` (`turma_id` ASC),
   CONSTRAINT `fk_aluno_turma1`
-    FOREIGN KEY (`turma_idturma`)
-    REFERENCES `mydb`.`turma` (`idturma`)
+    FOREIGN KEY (`turma_id`)
+    REFERENCES `turma` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`matricula`
+-- Table `matricula`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`matricula` (
-  `aluno_id` INT NOT NULL,
-  `turma_id` INT NOT NULL,
-  PRIMARY KEY (`aluno_id`, `turma_id`),
+CREATE TABLE IF NOT EXISTS `matricula` (
+  `aluno_id` INT(11) NOT NULL,
+  `turma_idturma` INT(11) NOT NULL,
+  PRIMARY KEY (`aluno_id`, `turma_idturma`),
   INDEX `fk_aluno_has_turma_turma1_idx` (`turma_idturma` ASC),
   INDEX `fk_aluno_has_turma_aluno1_idx` (`aluno_id` ASC),
   CONSTRAINT `fk_aluno_has_turma_aluno1`
     FOREIGN KEY (`aluno_id`)
-    REFERENCES `mydb`.`aluno` (`id`)
+    REFERENCES `aluno` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_aluno_has_turma_turma1`
-    FOREIGN KEY (`turma_id`)
-    REFERENCES `mydb`.`turma` (`id`)
+    FOREIGN KEY (`turma_idturma`)
+    REFERENCES `turma` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`chamada`
+-- Table `chamada`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`chamada` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `chamada` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `data` DATE NOT NULL,
   `presente` TINYINT(1) NOT NULL,
-  `matricula_aluno_id` INT NOT NULL,
-  `matricula_turma_idturma` INT NOT NULL,
+  `matricula_aluno_id` INT(11) NOT NULL,
+  `matricula_turma_idturma` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_chamada_matricula1_idx` (`matricula_aluno_id` ASC, `matricula_turma_idturma` ASC),
   CONSTRAINT `fk_chamada_matricula1`
     FOREIGN KEY (`matricula_aluno_id` , `matricula_turma_idturma`)
-    REFERENCES `mydb`.`matricula` (`aluno_id` , `turma_idturma`)
+    REFERENCES `matricula` (`aluno_id` , `turma_idturma`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `telefone`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `telefone` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `numero` VARCHAR(20) NOT NULL,
+  `tipo` VARCHAR(50) NULL DEFAULT NULL,
+  `instrutor_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_telefone_instrutor_idx` (`instrutor_id` ASC),
+  CONSTRAINT `fk_telefone_instrutor`
+    FOREIGN KEY (`instrutor_id`)
+    REFERENCES `instrutor` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 20
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

@@ -17,7 +17,7 @@ public class ConnectionFactory {
  
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/mydb?zeroDateTimeBehavior=convertToNull";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/academia?zeroDateTimeBehavior=convertToNull";
     
     public static Connection createConnectionToMySQL() throws SQLException {
         Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);

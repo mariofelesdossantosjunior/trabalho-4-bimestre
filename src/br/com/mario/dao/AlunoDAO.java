@@ -5,14 +5,14 @@
  */
 package br.com.mario.dao;
 
-import br.com.mario.model.Atividade;
-import br.com.mario.model.Instrutor;
+import br.com.mario.model.Aluno;
 import br.com.mario.model.Turma;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,38 +20,34 @@ import java.util.List;
  *
  * @author baro
  */
-public class TurmaDAO implements Dao<Integer, Turma> {
+public class AlunoDAO implements Dao<Integer, Aluno> {
 
     protected Connection con;
 
-    public TurmaDAO(Connection con) {
+    public AlunoDAO(Connection con) {
         this.con = con;
     }
 
     @Override
-    public boolean create(Turma entity) {
-        String sql = "INSERT INTO turma (horario, duracao, datainicio, datafim, instrutor_id, atividade_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
-
-        if (entity.getInstrutor().getId() == 0) {
-            InstrutorDAO dao = new InstrutorDAO(con);
-            dao.create(entity.getInstrutor());
-        }
-
-        if (entity.getAtividade().getId() == 0) {
-            AtividadeDAO dao = new AtividadeDAO(con);
-            dao.create(entity.getAtividade());
-        }
+    public boolean create(Aluno entity) {
+        String sql = "INSERT INTO aluno (datamatricula, nome, endereco, telefone, nascimento, altura, peso, turma_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement query = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            query.setString(1, entity.getHorario());
-            query.setFloat(2, entity.getDuracao());
-            query.setDate(3, entity.getDataInicio());
-            query.setDate(4, entity.getDataFim());
+            query.setDate(1, entity.getDataMatricula());
+            query.setString(2, entity.getNome());
+            query.setString(3, entity.getEndereco());
+            query.setString(4, entity.getTelefone());
+            query.setDate(5, entity.getNascimento());
+            query.setFloat(6, entity.getAltura());
+            query.setFloat(7, entity.getPeso());
 
-            query.setInt(5, entity.getInstrutor().getId());
-            query.setInt(6, entity.getAtividade().getId());
+            if (entity.getTurma() != null) {
+                query.setInt(8, entity.getTurma().getId());
+            } else {
+                query.setNull(8, Types.INTEGER);
+            }
 
             query.executeUpdate();
             ResultSet rs = query.getGeneratedKeys();
@@ -70,12 +66,12 @@ public class TurmaDAO implements Dao<Integer, Turma> {
     }
 
     @Override
-    public Turma retrieve(Integer pk) {
+    public Aluno retrieve(Integer pk) {
         // Cria novo objeto
-        Turma turma = null;
+        Aluno aluno = null;
 
         // Define SQL
-        String sql = "SELECT id, horario, duracao, datainicio, datafim, instrutor_id, atividade_id FROM turma WHERE id = ?";
+        String sql = "SELECT id, datamatricula, nome, endereco, telefone, nascimento, altura, peso, turma_id FROM aluno WHERE id = ?";
 
         try {
             // Associa conexão
@@ -87,42 +83,43 @@ public class TurmaDAO implements Dao<Integer, Turma> {
 
             // Recupera dados do conjunto
             while (rs.next()) {
-                turma = new Turma();
-                turma.setId(rs.getInt("id"));
-                turma.setHorario(rs.getString("horario"));
-                turma.setDuracao(rs.getFloat("duracao"));
-                turma.setDataInicio(rs.getDate("datainicio"));
-                turma.setDataFim(rs.getDate("datafim"));
+                aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setDataMatricula(rs.getDate("datamatricula"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setEndereco(rs.getString("endereco"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setNascimento(rs.getDate("nascimento"));
+                aluno.setAltura(rs.getFloat("altura"));
+                aluno.setPeso(rs.getFloat("peso"));
 
-                InstrutorDAO instrutorDAO = new InstrutorDAO(con);
-                Instrutor instrutor = instrutorDAO.retrieve(rs.getInt("instrutor_id"));
-                turma.setInstrutor(instrutor);
-
-                AtividadeDAO atividadeDAO = new AtividadeDAO(con);
-                Atividade atividade = atividadeDAO.retrieve(rs.getInt("atividade_id"));
-                turma.setAtividade(atividade);
+                TurmaDAO turmaDAO = new TurmaDAO(con);
+                Turma turma = turmaDAO.retrieve(rs.getInt("turma_id"));
+                aluno.setTurma(turma);
             }
             query.close();
 
         } catch (SQLException ex) {
             System.out.println("SQL exception occured" + ex);
         }
-        return turma;
+        return aluno;
     }
 
     @Override
-    public boolean update(Turma entity) {
-        String sql = "UPDATE turma SET horario = ?, duracao = ?, datainicio = ?, datafim = ?, instrutor_id = ?, atividade_id = ? WHERE id = ?";
+    public boolean update(Aluno entity) {
+        String sql = "UPDATE aluno SET datamatricula = ?, nome = ?, endereco = ?, telefone = ?, nascimento = ?, altura = ?, peso = ?, turma_id = ? FROM aluno WHERE id = ? ";
 
         try {
             PreparedStatement query = con.prepareStatement(sql);
-            query.setString(1, entity.getHorario());
-            query.setFloat(2, entity.getDuracao());
-            query.setDate(3, entity.getDataInicio());
-            query.setDate(4, entity.getDataFim());
-            query.setInt(5, entity.getInstrutor().getId());
-            query.setInt(6, entity.getAtividade().getId());
-            query.setInt(7, entity.getId());
+            query.setDate(1, entity.getDataMatricula());
+            query.setString(2, entity.getNome());
+            query.setString(3, entity.getEndereco());
+            query.setString(4, entity.getTelefone());
+            query.setDate(5, entity.getNascimento());
+            query.setFloat(6, entity.getAltura());
+            query.setFloat(7, entity.getPeso());
+            query.setInt(8, entity.getTurma().getId());
+            query.setInt(9, entity.getId());
 
             query.executeUpdate();
 
@@ -138,7 +135,7 @@ public class TurmaDAO implements Dao<Integer, Turma> {
 
     @Override
     public void delete(Integer pk) {
-        String sql = "DELETE FROM turma WHERE id = ?";
+        String sql = "DELETE FROM aluno WHERE id = ?";
 
         try {
             PreparedStatement query = con.prepareStatement(sql);
@@ -153,11 +150,11 @@ public class TurmaDAO implements Dao<Integer, Turma> {
     }
 
     @Override
-    public List<Turma> findAll() {
-        List<Turma> turmas = new ArrayList<>();
+    public List<Aluno> findAll() {
+        List<Aluno> alunos = new ArrayList<>();
 
         // Define SQL
-        String sql = "SELECT id, horario, duracao, datainicio, datafim, instrutor_id, atividade_id  FROM turma";
+        String sql = "SELECT id, datamatricula, nome, endereco, telefone, nascimento, altura, peso, turma_id FROM aluno";
 
         try {
             // Associa conexão
@@ -167,29 +164,28 @@ public class TurmaDAO implements Dao<Integer, Turma> {
 
             // Recupera dados do conjunto
             while (rs.next()) {
-                Turma turma = new Turma();
-                turma.setId(rs.getInt("id"));
-                turma.setHorario(rs.getString("horario"));
-                turma.setDuracao(rs.getFloat("duracao"));
-                turma.setDataInicio(rs.getDate("datainicio"));
-                turma.setDataFim(rs.getDate("datafim"));
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setDataMatricula(rs.getDate("datamatricula"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setEndereco(rs.getString("endereco"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setNascimento(rs.getDate("nascimento"));
+                aluno.setAltura(rs.getFloat("altura"));
+                aluno.setPeso(rs.getFloat("peso"));
 
-                InstrutorDAO instrutorDAO = new InstrutorDAO(con);
-                Instrutor instrutor = instrutorDAO.retrieve(rs.getInt("instrutor_id"));
-                turma.setInstrutor(instrutor);
+                TurmaDAO turmaDAO = new TurmaDAO(con);
+                Turma turma = turmaDAO.retrieve(rs.getInt("turma_id"));
+                aluno.setTurma(turma);
 
-                AtividadeDAO atividadeDAO = new AtividadeDAO(con);
-                Atividade atividade = atividadeDAO.retrieve(rs.getInt("atividade_id"));
-                turma.setAtividade(atividade);
-                
-                turmas.add(turma);
+                alunos.add(aluno);
             }
             query.close();
 
         } catch (SQLException ex) {
             System.out.println("SQL exception occured" + ex);
         }
-        return turmas;
+        return alunos;
     }
 
 }

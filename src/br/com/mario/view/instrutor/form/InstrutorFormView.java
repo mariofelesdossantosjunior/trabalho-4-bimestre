@@ -12,6 +12,7 @@ import br.com.mario.util.tablemodel.TelefoneTableModel;
 import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -80,11 +81,12 @@ public class InstrutorFormView extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTelefones = new javax.swing.JTable();
         tfNumeroTelefone = new javax.swing.JTextField();
-        tfTipoTelefone = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         btAdicionar = new javax.swing.JButton();
+        cbTipoTelefone = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(717, 507));
 
         tfNome.setBackground(new java.awt.Color(214, 217, 223));
         tfNome.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome"));
@@ -138,9 +140,6 @@ public class InstrutorFormView extends javax.swing.JDialog {
         tfNumeroTelefone.setBackground(new java.awt.Color(214, 217, 223));
         tfNumeroTelefone.setBorder(javax.swing.BorderFactory.createTitledBorder("Número"));
 
-        tfTipoTelefone.setBackground(new java.awt.Color(214, 217, 223));
-        tfTipoTelefone.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo"));
-
         btAdicionar.setBackground(new java.awt.Color(0, 153, 51));
         btAdicionar.setForeground(new java.awt.Color(255, 255, 255));
         btAdicionar.setText("Adicionar");
@@ -149,6 +148,8 @@ public class InstrutorFormView extends javax.swing.JDialog {
                 btAdicionarActionPerformed(evt);
             }
         });
+
+        cbTipoTelefone.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Fixo", "Celular" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +174,7 @@ public class InstrutorFormView extends javax.swing.JDialog {
                                 .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfTipoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbTipoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tfNumeroTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -196,11 +197,11 @@ public class InstrutorFormView extends javax.swing.JDialog {
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfNumeroTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfTipoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbTipoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNumeroTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -220,8 +221,9 @@ public class InstrutorFormView extends javax.swing.JDialog {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
-        if (!tfTipoTelefone.getText().isEmpty() && !tfNumeroTelefone.getText().isEmpty()) {
-            controller.adicionarTelefone(tfTipoTelefone.getText(), tfNumeroTelefone.getText());
+
+        if (!getTipoTelefoneSelect().isEmpty() && !tfNumeroTelefone.getText().isEmpty()) {
+            controller.adicionarTelefone(getTipoTelefoneSelect(), tfNumeroTelefone.getText());
             limpar();
         } else {
             JOptionPane.showMessageDialog(null, "Preencha os dados por favor!");
@@ -236,7 +238,7 @@ public class InstrutorFormView extends javax.swing.JDialog {
         if (rowSelect != -1) {
 
             Telefone telefone = tableModel.getValueAtRow(rowSelect);
-            
+
             //Remove
             if (tbTelefones.getSelectedColumn() == 3) {
                 remove(telefone);
@@ -249,6 +251,7 @@ public class InstrutorFormView extends javax.swing.JDialog {
     private javax.swing.JButton btAdicionar;
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btSalvar;
+    private javax.swing.JComboBox cbTipoTelefone;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tbTelefones;
@@ -256,9 +259,16 @@ public class InstrutorFormView extends javax.swing.JDialog {
     private javax.swing.JTextField tfNome;
     private javax.swing.JTextField tfNumeroTelefone;
     private javax.swing.JTextField tfRg;
-    private javax.swing.JTextField tfTipoTelefone;
     private javax.swing.JTextField tfTitulacao;
     // End of variables declaration//GEN-END:variables
+
+    public TelefoneTableModel getTelefoneTableModel() {
+        return telefoneTableModel;
+    }
+
+    public JButton getBtAdicionar() {
+        return btAdicionar;
+    }
 
     public JButton getBtCancelar() {
         return btCancelar;
@@ -266,6 +276,10 @@ public class InstrutorFormView extends javax.swing.JDialog {
 
     public JButton getBtSalvar() {
         return btSalvar;
+    }
+
+    public JComboBox getCbTipoTelefone() {
+        return cbTipoTelefone;
     }
 
     public JFormattedTextField getTfNascimento() {
@@ -276,6 +290,10 @@ public class InstrutorFormView extends javax.swing.JDialog {
         return tfNome;
     }
 
+    public JTextField getTfNumeroTelefone() {
+        return tfNumeroTelefone;
+    }
+
     public JTextField getTfRg() {
         return tfRg;
     }
@@ -284,38 +302,10 @@ public class InstrutorFormView extends javax.swing.JDialog {
         return tfTitulacao;
     }
 
-    public JButton getBtAdicionar() {
-        return btAdicionar;
-    }
-
-    public void setBtAdicionar(JButton btAdicionar) {
-        this.btAdicionar = btAdicionar;
-    }
-
-    public JTextField getTfNumeroTelefone() {
-        return tfNumeroTelefone;
-    }
-
-    public void setTfNumeroTelefone(JTextField tfNumeroTelefone) {
-        this.tfNumeroTelefone = tfNumeroTelefone;
-    }
-
-    public JTextField getTfTipoTelefone() {
-        return tfTipoTelefone;
-    }
-
-    public void setTfTipoTelefone(JTextField tfTipoTelefone) {
-        this.tfTipoTelefone = tfTipoTelefone;
-    }
-
-    public TelefoneTableModel getTelefoneTableModel() {
-        return telefoneTableModel;
-    }
-
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=METODOS=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--\\
     private void limpar() {
         tfNumeroTelefone.setText("");
-        tfTipoTelefone.setText("");
+        cbTipoTelefone.getModel().setSelectedItem(null);
         controller.loadTelefones();
     }
 
@@ -324,8 +314,9 @@ public class InstrutorFormView extends javax.swing.JDialog {
         controller.loadTelefones();
     }
 
-    private void edit(Telefone telefone) {
-        controller.editTelefone(telefone);
+
+    public String getTipoTelefoneSelect() {
+        return (String) cbTipoTelefone.getSelectedItem();
     }
 
 }

@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.mario.view.turma.form;
+package br.com.mario.view.aluno.form;
 
-import br.com.mario.dao.AtividadeDAO;
+import br.com.mario.dao.AlunoDAO;
 import br.com.mario.dao.DaoFactory;
-import br.com.mario.dao.InstrutorDAO;
 import br.com.mario.dao.TurmaDAO;
-import br.com.mario.model.Atividade;
-import br.com.mario.model.Instrutor;
+import br.com.mario.model.Aluno;
 import br.com.mario.model.Turma;
 import static br.com.mario.util.Util.convertToDate;
 import static br.com.mario.util.Util.convertToString;
@@ -21,69 +19,66 @@ import javax.swing.JOptionPane;
  *
  * @author mario
  */
-public class TurmaFormController {
+public class AlunoFormController {
 
-    private final TurmaFormView view;
+    private final AlunoFormView view;
+    private final AlunoDAO alunoDAO;
     private final TurmaDAO turmaDAO;
-    private final InstrutorDAO instrutorDAO;
-    private final AtividadeDAO atividadeDAO;
-    private Turma turma;
+    private Aluno aluno;
 
-    public TurmaFormController(TurmaFormView view) {
+    public AlunoFormController(AlunoFormView view) {
         this.view = view;
+        this.alunoDAO = new DaoFactory().alunoDao();
         this.turmaDAO = new DaoFactory().turmaDao();
-        this.instrutorDAO = new DaoFactory().instrutorDao();
-        this.atividadeDAO = new DaoFactory().atividadeDao();
     }
 
     public boolean merge() {
-        if (turma != null && turma.getId() != 0) {
+        if (aluno != null && aluno.getId() != 0) {
             setValues();
-            return turmaDAO.update(turma);
+            return alunoDAO.update(aluno);
 
         } else {
-            turma = new Turma();
+            aluno = new Aluno();
             setValues();
-            return turmaDAO.create(turma);
+            return alunoDAO.create(aluno);
         }
     }
 
     private void setValues() throws NumberFormatException {
-        turma.setHorario(view.getTfHorario().getText());
-        turma.setDuracao(Float.parseFloat(view.getTfDuracao().getText()));
-        turma.setDataInicio(convertToDate(view.getTfDataInicio().getText()));
-        turma.setDataFim(convertToDate(view.getTfDataFim().getText()));
-        turma.setAtividade(view.getAtividadeModel().getSelectedItem());
-        turma.setInstrutor(view.getInstrutorModel().getSelectedItem());
+        aluno.setDataMatricula(convertToDate(view.getTfDataMatricula().getText()));
+        aluno.setNome(view.getTfNome().getText());
+        aluno.setEndereco(view.getTfEndereco().getText());
+        aluno.setTelefone(view.getTfTelefone().getText());
+        aluno.setNascimento(convertToDate(view.getTfNascimento().getText()));
+        aluno.setAltura(Float.parseFloat(view.getTfAltura().getText()));
+        aluno.setPeso(Float.parseFloat(view.getTfPeso().getText()));
+        aluno.setTurma(view.getTurmaModel().getSelectedItem());
     }
 
-    public void edit(Turma turma) {
-        this.turma = turma;
+    public void edit(Aluno aluno) {
+        this.aluno = aluno;
 
-        view.getTfHorario().setText(turma.getHorario());
-        view.getTfDuracao().setText(turma.getDuracao().toString());
-        view.getTfDataInicio().setText(convertToString(turma.getDataInicio()));
-        view.getTfDataFim().setText(convertToString(turma.getDataFim()));
-        view.getAtividadeModel().setSelectedItem(turma.getAtividade());
-        view.getInstrutorModel().setSelectedItem(turma.getInstrutor());
+        view.getTfDataMatricula().setText(convertToString(aluno.getDataMatricula()));
+        view.getTfNome().setText(aluno.getNome());
+        view.getTfEndereco().setText(aluno.getEndereco());
+        view.getTfTelefone().setText(aluno.getTelefone());
+        view.getTfNascimento().setText(convertToString(aluno.getNascimento()));
+        view.getTfAltura().setText(aluno.getAltura().toString());
+        view.getTfPeso().setText(aluno.getPeso().toString());
+        view.getTurmaModel().setSelectedItem(aluno.getTurma());
     }
 
-    void remove(Turma turma) {
+    void remove(Aluno aluno) {
         int status = JOptionPane.showConfirmDialog(null, "Desejá realmente remover?", "Atenção", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
         if (status == JOptionPane.YES_OPTION) {
-            turmaDAO.delete(turma.getId());
+            alunoDAO.delete(aluno.getId());
         }
     }
 
-    void loadInstrutores() {
-        List<Instrutor> instrutors = instrutorDAO.findAll();
-        view.getInstrutorModel().addListElements(instrutors);
-    }
-
-    void loadAtividades() {
-        List<Atividade> atividades = atividadeDAO.findAll();
-        view.getAtividadeModel().addListElements(atividades);
+    void loadTurmas() {
+        List<Turma> turmas = turmaDAO.findAll();
+        view.getTurmaModel().addListElements(turmas);
     }
 
 }

@@ -125,11 +125,11 @@ public class TurmaListView extends javax.swing.JFrame {
             Turma turma = tableModel.getValueAtRow(rowSelect);
 
             //Edit
-            if (tbTurmas.getSelectedColumn() == 5) {
+            if (tbTurmas.getSelectedColumn() == 6) {
                 edit(turma);
             }
             //Remove
-            if (tbTurmas.getSelectedColumn() == 6) {
+            if (tbTurmas.getSelectedColumn() == 7) {
                 remove(turma);
             }
         }

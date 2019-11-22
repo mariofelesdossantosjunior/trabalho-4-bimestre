@@ -5,8 +5,7 @@
  */
 package br.com.mario.model;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 
 /**
  *
@@ -22,12 +21,12 @@ public class Aluno {
     private Date nascimento;
     private Float altura;
     private Float peso;
-    private List<Turma> turmas;
+    private Turma turma;
 
     public Aluno() {
     }
 
-    public Aluno(int id, Date dataMatricula, String nome, String endereco, String telefone, Date nascimento, Float altura, Float peso, List<Turma> turmas) {
+    public Aluno(int id, Date dataMatricula, String nome, String endereco, String telefone, Date nascimento, Float altura, Float peso, Turma turma) {
         this.id = id;
         this.dataMatricula = dataMatricula;
         this.nome = nome;
@@ -36,7 +35,7 @@ public class Aluno {
         this.nascimento = nascimento;
         this.altura = altura;
         this.peso = peso;
-        this.turmas = turmas;
+        this.turma = turma;
     }
 
     public int getId() {
@@ -103,17 +102,17 @@ public class Aluno {
         this.peso = peso;
     }
 
-    public List<Turma> getTurmas() {
-        return turmas;
+    public Turma getTurma() {
+        return turma;
     }
 
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 
     @Override
     public String toString() {
-        return "Aluno{" + "id=" + id + ", dataMatricula=" + dataMatricula + ", nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone + ", nascimento=" + nascimento + ", altura=" + altura + ", peso=" + peso + '}';
+        return "Aluno{" + "id=" + id + ", dataMatricula=" + dataMatricula + ", nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone + ", nascimento=" + nascimento + ", altura=" + altura + ", peso=" + peso + ", turma=" + turma + '}';
     }
 
 }

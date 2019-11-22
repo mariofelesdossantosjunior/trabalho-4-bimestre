@@ -43,4 +43,8 @@ public class DaoFactory {
         return new TurmaDAO(connection);
     }
 
+    public AlunoDAO alunoDao() {
+        return new AlunoDAO(connection);
+    }
+
 }

@@ -65,11 +65,6 @@ public class InstrutorFormController {
         view.getTelefoneTableModel().setListData(instrutor.getTelefones());
     }
 
-    public void editTelefone(Telefone telefone) {
-        view.getTfNumeroTelefone().setText(telefone.getNumero());
-        view.getTfTipoTelefone().setText(telefone.getTipo());
-    }
-
     private java.sql.Date convertDataNascimento() {
         try {
             return new java.sql.Date(dateFormat.parse(view.getTfNascimento().getText()).getTime());

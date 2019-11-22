@@ -5,9 +5,8 @@
  */
 package br.com.mario.util.tablemodel;
 
-import br.com.mario.model.Turma;
+import br.com.mario.model.Aluno;
 import br.com.mario.util.GenericTableModel;
-import br.com.mario.util.Util;
 import static br.com.mario.util.Util.convertToString;
 import java.util.List;
 
@@ -15,11 +14,11 @@ import java.util.List;
  *
  * @author mario
  */
-public class TurmaTableModel extends GenericTableModel<Turma> {
+public class AlunoTableModel extends GenericTableModel<Aluno> {
 
-    private String[] colunas = {"Codigo", "Horário", "Duração", "Data Inicio", "Data Fim", "Editar", "Remover"};
+    private String[] colunas = {"Codigo", "Data Matricula", "Nome", "Endereço", "Telefone", "Nascimento", "Altura", "Peso", "Editar", "Remover"};
 
-    public TurmaTableModel(List<Turma> rows) {
+    public AlunoTableModel(List<Aluno> rows) {
         super(rows);
     }
 
@@ -29,16 +28,22 @@ public class TurmaTableModel extends GenericTableModel<Turma> {
             case 0:
                 return rows.get(row).getId();
             case 1:
-                return rows.get(row).getHorario();
+                return convertToString(rows.get(row).getDataMatricula());
             case 2:
-                return rows.get(row).getDuracao();
+                return rows.get(row).getNome();
             case 3:
-                return convertToString(rows.get(row).getDataInicio());
+                return rows.get(row).getEndereco();
             case 4:
-                return convertToString(rows.get(row).getDataFim());
+                return rows.get(row).getTelefone();
             case 5:
-                return "Editar";
+                return convertToString(rows.get(row).getNascimento());
             case 6:
+                return rows.get(row).getAltura();
+            case 7:
+                return rows.get(row).getPeso();
+            case 8:
+                return "Editar";
+            case 9:
                 return "Remover";
 
         }

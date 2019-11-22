@@ -92,6 +92,7 @@ public class TurmaFormView extends javax.swing.JDialog {
         tfDuracao = new javax.swing.JTextField();
         tfDataFim = new javax.swing.JFormattedTextField();
         tfHorario = new javax.swing.JFormattedTextField();
+        tfNome = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -137,6 +138,9 @@ public class TurmaFormView extends javax.swing.JDialog {
         tfHorario.setBorder(javax.swing.BorderFactory.createTitledBorder("Horário"));
         tfHorario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
 
+        tfNome.setBackground(new java.awt.Color(214, 217, 223));
+        tfNome.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome"));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,6 +148,7 @@ public class TurmaFormView extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfNome)
                     .addComponent(cbInstrutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbAtividade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -170,11 +175,13 @@ public class TurmaFormView extends javax.swing.JDialog {
                     .addComponent(tfDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addComponent(cbInstrutor, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbAtividade, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -207,6 +214,7 @@ public class TurmaFormView extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField tfDataInicio;
     private javax.swing.JTextField tfDuracao;
     private javax.swing.JFormattedTextField tfHorario;
+    private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
 
     public GenericComboBoxModel<Instrutor> getInstrutorModel() {
@@ -239,6 +247,10 @@ public class TurmaFormView extends javax.swing.JDialog {
 
     public JTextField getTfHorario() {
         return tfHorario;
+    }
+
+    public JTextField getTfNome() {
+        return tfNome;
     }
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=METODOS=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--\\

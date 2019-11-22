@@ -49,6 +49,7 @@ public class TurmaFormController {
     }
 
     private void setValues() throws NumberFormatException {
+        turma.setNome(view.getTfNome().getText());
         turma.setHorario(view.getTfHorario().getText());
         turma.setDuracao(Float.parseFloat(view.getTfDuracao().getText()));
         turma.setDataInicio(convertToDate(view.getTfDataInicio().getText()));
@@ -60,6 +61,7 @@ public class TurmaFormController {
     public void edit(Turma turma) {
         this.turma = turma;
 
+        view.getTfNome().setText(turma.getNome());
         view.getTfHorario().setText(turma.getHorario());
         view.getTfDuracao().setText(turma.getDuracao().toString());
         view.getTfDataInicio().setText(convertToString(turma.getDataInicio()));

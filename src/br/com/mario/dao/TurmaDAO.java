@@ -30,8 +30,8 @@ public class TurmaDAO implements Dao<Integer, Turma> {
 
     @Override
     public boolean create(Turma entity) {
-        String sql = "INSERT INTO turma (horario, duracao, datainicio, datafim, instrutor_id, atividade_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO turma (nome, horario, duracao, datainicio, datafim, instrutor_id, atividade_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         if (entity.getInstrutor().getId() == 0) {
             InstrutorDAO dao = new InstrutorDAO(con);
@@ -45,13 +45,14 @@ public class TurmaDAO implements Dao<Integer, Turma> {
 
         try {
             PreparedStatement query = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            query.setString(1, entity.getHorario());
-            query.setFloat(2, entity.getDuracao());
-            query.setDate(3, entity.getDataInicio());
-            query.setDate(4, entity.getDataFim());
+            query.setString(1, entity.getNome());
+            query.setString(2, entity.getHorario());
+            query.setFloat(3, entity.getDuracao());
+            query.setDate(4, entity.getDataInicio());
+            query.setDate(5, entity.getDataFim());
 
-            query.setInt(5, entity.getInstrutor().getId());
-            query.setInt(6, entity.getAtividade().getId());
+            query.setInt(6, entity.getInstrutor().getId());
+            query.setInt(7, entity.getAtividade().getId());
 
             query.executeUpdate();
             ResultSet rs = query.getGeneratedKeys();
@@ -75,7 +76,7 @@ public class TurmaDAO implements Dao<Integer, Turma> {
         Turma turma = null;
 
         // Define SQL
-        String sql = "SELECT id, horario, duracao, datainicio, datafim, instrutor_id, atividade_id FROM turma WHERE id = ?";
+        String sql = "SELECT id, nome, horario, duracao, datainicio, datafim, instrutor_id, atividade_id FROM turma WHERE id = ?";
 
         try {
             // Associa conexão
@@ -88,6 +89,7 @@ public class TurmaDAO implements Dao<Integer, Turma> {
             // Recupera dados do conjunto
             while (rs.next()) {
                 turma = new Turma();
+                turma.setNome(rs.getString("nome"));
                 turma.setId(rs.getInt("id"));
                 turma.setHorario(rs.getString("horario"));
                 turma.setDuracao(rs.getFloat("duracao"));
@@ -112,17 +114,18 @@ public class TurmaDAO implements Dao<Integer, Turma> {
 
     @Override
     public boolean update(Turma entity) {
-        String sql = "UPDATE turma SET horario = ?, duracao = ?, datainicio = ?, datafim = ?, instrutor_id = ?, atividade_id = ? WHERE id = ?";
+        String sql = "UPDATE turma SET nome = ?, horario = ?, duracao = ?, datainicio = ?, datafim = ?, instrutor_id = ?, atividade_id = ? WHERE id = ?";
 
         try {
             PreparedStatement query = con.prepareStatement(sql);
-            query.setString(1, entity.getHorario());
-            query.setFloat(2, entity.getDuracao());
-            query.setDate(3, entity.getDataInicio());
-            query.setDate(4, entity.getDataFim());
-            query.setInt(5, entity.getInstrutor().getId());
-            query.setInt(6, entity.getAtividade().getId());
-            query.setInt(7, entity.getId());
+            query.setString(1, entity.getNome());
+            query.setString(2, entity.getHorario());
+            query.setFloat(3, entity.getDuracao());
+            query.setDate(4, entity.getDataInicio());
+            query.setDate(5, entity.getDataFim());
+            query.setInt(6, entity.getInstrutor().getId());
+            query.setInt(7, entity.getAtividade().getId());
+            query.setInt(8, entity.getId());
 
             query.executeUpdate();
 
@@ -157,7 +160,7 @@ public class TurmaDAO implements Dao<Integer, Turma> {
         List<Turma> turmas = new ArrayList<>();
 
         // Define SQL
-        String sql = "SELECT id, horario, duracao, datainicio, datafim, instrutor_id, atividade_id  FROM turma";
+        String sql = "SELECT nome, id, horario, duracao, datainicio, datafim, instrutor_id, atividade_id  FROM turma";
 
         try {
             // Associa conexão
@@ -168,6 +171,7 @@ public class TurmaDAO implements Dao<Integer, Turma> {
             // Recupera dados do conjunto
             while (rs.next()) {
                 Turma turma = new Turma();
+                turma.setNome(rs.getString("nome"));
                 turma.setId(rs.getInt("id"));
                 turma.setHorario(rs.getString("horario"));
                 turma.setDuracao(rs.getFloat("duracao"));
