@@ -47,4 +47,8 @@ public class DaoFactory {
         return new AlunoDAO(connection);
     }
 
+    public MatriculaDAO matriculaDao() {
+        return new MatriculaDAO(connection);
+    }
+
 }

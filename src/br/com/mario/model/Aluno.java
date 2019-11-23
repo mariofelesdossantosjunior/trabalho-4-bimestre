@@ -14,7 +14,6 @@ import java.sql.Date;
 public class Aluno {
 
     private int id;
-    private Date dataMatricula;
     private String nome;
     private String endereco;
     private String telefone;
@@ -26,32 +25,12 @@ public class Aluno {
     public Aluno() {
     }
 
-    public Aluno(int id, Date dataMatricula, String nome, String endereco, String telefone, Date nascimento, Float altura, Float peso, Turma turma) {
-        this.id = id;
-        this.dataMatricula = dataMatricula;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.nascimento = nascimento;
-        this.altura = altura;
-        this.peso = peso;
-        this.turma = turma;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Date getDataMatricula() {
-        return dataMatricula;
-    }
-
-    public void setDataMatricula(Date dataMatricula) {
-        this.dataMatricula = dataMatricula;
     }
 
     public String getNome() {
@@ -112,7 +91,7 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Aluno{" + "id=" + id + ", dataMatricula=" + dataMatricula + ", nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone + ", nascimento=" + nascimento + ", altura=" + altura + ", peso=" + peso + ", turma=" + turma + '}';
+        return nome;
     }
 
 }

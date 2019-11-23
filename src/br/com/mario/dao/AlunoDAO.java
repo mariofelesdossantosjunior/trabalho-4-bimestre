@@ -30,23 +30,22 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
 
     @Override
     public boolean create(Aluno entity) {
-        String sql = "INSERT INTO aluno (datamatricula, nome, endereco, telefone, nascimento, altura, peso, turma_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO aluno (nome, endereco, telefone, nascimento, altura, peso, turma_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement query = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            query.setDate(1, entity.getDataMatricula());
-            query.setString(2, entity.getNome());
-            query.setString(3, entity.getEndereco());
-            query.setString(4, entity.getTelefone());
-            query.setDate(5, entity.getNascimento());
-            query.setFloat(6, entity.getAltura());
-            query.setFloat(7, entity.getPeso());
+            query.setString(1, entity.getNome());
+            query.setString(2, entity.getEndereco());
+            query.setString(3, entity.getTelefone());
+            query.setDate(4, entity.getNascimento());
+            query.setFloat(5, entity.getAltura());
+            query.setFloat(6, entity.getPeso());
 
             if (entity.getTurma() != null) {
-                query.setInt(8, entity.getTurma().getId());
+                query.setInt(7, entity.getTurma().getId());
             } else {
-                query.setNull(8, Types.INTEGER);
+                query.setNull(7, Types.INTEGER);
             }
 
             query.executeUpdate();
@@ -71,7 +70,7 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
         Aluno aluno = null;
 
         // Define SQL
-        String sql = "SELECT id, datamatricula, nome, endereco, telefone, nascimento, altura, peso, turma_id FROM aluno WHERE id = ?";
+        String sql = "SELECT id, nome, endereco, telefone, nascimento, altura, peso, turma_id FROM aluno WHERE id = ?";
 
         try {
             // Associa conexão
@@ -85,7 +84,6 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
             while (rs.next()) {
                 aluno = new Aluno();
                 aluno.setId(rs.getInt("id"));
-                aluno.setDataMatricula(rs.getDate("datamatricula"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setEndereco(rs.getString("endereco"));
                 aluno.setTelefone(rs.getString("telefone"));
@@ -107,19 +105,18 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
 
     @Override
     public boolean update(Aluno entity) {
-        String sql = "UPDATE aluno SET datamatricula = ?, nome = ?, endereco = ?, telefone = ?, nascimento = ?, altura = ?, peso = ?, turma_id = ? FROM aluno WHERE id = ? ";
+        String sql = "UPDATE aluno SET nome = ?, endereco = ?, telefone = ?, nascimento = ?, altura = ?, peso = ?, turma_id = ? FROM aluno WHERE id = ? ";
 
         try {
             PreparedStatement query = con.prepareStatement(sql);
-            query.setDate(1, entity.getDataMatricula());
-            query.setString(2, entity.getNome());
-            query.setString(3, entity.getEndereco());
-            query.setString(4, entity.getTelefone());
-            query.setDate(5, entity.getNascimento());
-            query.setFloat(6, entity.getAltura());
-            query.setFloat(7, entity.getPeso());
-            query.setInt(8, entity.getTurma().getId());
-            query.setInt(9, entity.getId());
+            query.setString(1, entity.getNome());
+            query.setString(2, entity.getEndereco());
+            query.setString(3, entity.getTelefone());
+            query.setDate(4, entity.getNascimento());
+            query.setFloat(5, entity.getAltura());
+            query.setFloat(6, entity.getPeso());
+            query.setInt(7, entity.getTurma().getId());
+            query.setInt(8, entity.getId());
 
             query.executeUpdate();
 
@@ -154,7 +151,7 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
         List<Aluno> alunos = new ArrayList<>();
 
         // Define SQL
-        String sql = "SELECT id, datamatricula, nome, endereco, telefone, nascimento, altura, peso, turma_id FROM aluno";
+        String sql = "SELECT id, nome, endereco, telefone, nascimento, altura, peso, turma_id FROM aluno";
 
         try {
             // Associa conexão
@@ -166,7 +163,6 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
             while (rs.next()) {
                 Aluno aluno = new Aluno();
                 aluno.setId(rs.getInt("id"));
-                aluno.setDataMatricula(rs.getDate("datamatricula"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setEndereco(rs.getString("endereco"));
                 aluno.setTelefone(rs.getString("telefone"));

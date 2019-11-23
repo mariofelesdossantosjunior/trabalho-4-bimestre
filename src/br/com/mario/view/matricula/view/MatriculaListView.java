@@ -1,14 +1,14 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.mario.view.aluno.view;
+package br.com.mario.view.matricula.view;
 
-import br.com.mario.model.Aluno;
+import br.com.mario.model.Matricula;
 import br.com.mario.util.CellButtonRender;
-import br.com.mario.util.tablemodel.AlunoTableModel;
-import br.com.mario.view.aluno.form.AlunoFormView;
+import br.com.mario.util.tablemodel.MatriculaTableModel;
+import br.com.mario.view.matricula.form.MatriculaFormView;
 import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -17,31 +17,29 @@ import javax.swing.JButton;
  *
  * @author mario
  */
+public class MatriculaListView extends javax.swing.JFrame {
 
-
-public class AlunoListView extends javax.swing.JFrame {
-
-    private final AlunoListController controller;
-    private final AlunoTableModel alunoTableModel;
+    private final MatriculaListController controller;
+    private final MatriculaTableModel matriculaTableModel;
 
     /**
      * Creates new form EstadoView
      */
-    public AlunoListView() {
+    public MatriculaListView() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Lista de Alunos");
+        this.setTitle("Lista de Matriculas");
 
-        controller = new AlunoListController(this);
+        controller = new MatriculaListController(this);
 
-        alunoTableModel = new AlunoTableModel(new ArrayList<>());
-        tbAlunos.setModel(alunoTableModel);
+        matriculaTableModel = new MatriculaTableModel(new ArrayList<>());
+        tbMatriculas.setModel(matriculaTableModel);
 
-        tbAlunos.setRowHeight(30);
-        tbAlunos.getColumn("Editar").setCellRenderer(new CellButtonRender("Editar", "src/resources/ic_edit.png"));
-        tbAlunos.getColumn("Remover").setCellRenderer(new CellButtonRender("Remover", "src/resources/ic_remove.png"));
+        tbMatriculas.setRowHeight(30);
+        tbMatriculas.getColumn("Editar").setCellRenderer(new CellButtonRender("Editar", "src/resources/ic_edit.png"));
+        tbMatriculas.getColumn("Remover").setCellRenderer(new CellButtonRender("Remover", "src/resources/ic_remove.png"));
 
-        controller.loadAlunos();
+        controller.loadMatriculas();
     }
 
     /**
@@ -55,7 +53,7 @@ public class AlunoListView extends javax.swing.JFrame {
 
         jbNovo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbAlunos = new javax.swing.JTable();
+        tbMatriculas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -68,7 +66,7 @@ public class AlunoListView extends javax.swing.JFrame {
             }
         });
 
-        tbAlunos.setModel(new javax.swing.table.DefaultTableModel(
+        tbMatriculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -79,12 +77,12 @@ public class AlunoListView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tbAlunos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbMatriculas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbAlunosMouseClicked(evt);
+                tbMatriculasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbAlunos);
+        jScrollPane1.setViewportView(tbMatriculas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,59 +114,59 @@ public class AlunoListView extends javax.swing.JFrame {
         edit(null);
     }//GEN-LAST:event_jbNovoActionPerformed
 
-    private void tbAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAlunosMouseClicked
-        int rowSelect = tbAlunos.getSelectedRow();
+    private void tbMatriculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMatriculasMouseClicked
+        int rowSelect = tbMatriculas.getSelectedRow();
 
-        AlunoTableModel tableModel = (AlunoTableModel) tbAlunos.getModel();
+        MatriculaTableModel tableModel = (MatriculaTableModel) tbMatriculas.getModel();
 
         if (rowSelect != -1) {
 
-            Aluno aluno = tableModel.getValueAtRow(rowSelect);
+            Matricula matricula = tableModel.getValueAtRow(rowSelect);
 
             //Edit
-            if (tbAlunos.getSelectedColumn() == 7) {
-                edit(aluno);
+            if (tbMatriculas.getSelectedColumn() == 3) {
+                edit(matricula);
             }
             //Remove
-            if (tbAlunos.getSelectedColumn() == 8) {
-                remove(aluno);
+            if (tbMatriculas.getSelectedColumn() == 4) {
+                remove(matricula);
             }
         }
-    }//GEN-LAST:event_tbAlunosMouseClicked
+    }//GEN-LAST:event_tbMatriculasMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbNovo;
-    private javax.swing.JTable tbAlunos;
+    private javax.swing.JTable tbMatriculas;
     // End of variables declaration//GEN-END:variables
 
     /**
      * Função responsavel pela remoção
      *
-     * @param aluno
+     * @param matricula
      */
-    private void remove(Aluno aluno) {
-        controller.remove(aluno);
-        controller.loadAlunos();
+    private void remove(Matricula matricula) {
+        controller.remove(matricula);
+        controller.loadMatriculas();
     }
 
     /*/*
      Função responsavel pela edição
      */
-    private void edit(Aluno aluno) {
+    private void edit(Matricula matricula) {
         boolean closeDialog;
         try {
-            closeDialog = new AlunoFormView(this, true, aluno).openDialog();
+            closeDialog = new MatriculaFormView(this, true, matricula).openDialog();
             if (closeDialog) {
-                controller.loadAlunos();
+                controller.loadMatriculas();
             }
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
 
-    public AlunoTableModel getTurmaTableModel() {
-        return alunoTableModel;
+    public MatriculaTableModel getMatriculaTableModel() {
+        return matriculaTableModel;
     }
 
     public JButton getJbNovo() {

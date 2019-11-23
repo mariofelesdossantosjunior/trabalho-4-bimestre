@@ -16,18 +16,9 @@ public class Chamada {
     private int id;
     private Date data;
     private boolean presente;
-    private Aluno aluno;
-    private Turma turma;
+    private Matricula matricula;
 
     public Chamada() {
-    }
-
-    public Chamada(int id, Date data, boolean presente, Aluno aluno, Turma turma) {
-        this.id = id;
-        this.data = data;
-        this.presente = presente;
-        this.aluno = aluno;
-        this.turma = turma;
     }
 
     public int getId() {
@@ -54,25 +45,17 @@ public class Chamada {
         this.presente = presente;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public Matricula getMatricula() {
+        return matricula;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
-    }
-
-    public Turma getTurma() {
-        return turma;
-    }
-
-    public void setTurma(Turma turma) {
-        this.turma = turma;
+    public void setMatricula(Matricula matricula) {
+        this.matricula = matricula;
     }
 
     @Override
     public String toString() {
-        return "Chamada{" + "id=" + id + ", data=" + data + ", presente=" + presente + ", aluno=" + aluno + ", turma=" + turma + '}';
+        return "Chamada{" + "id=" + id + ", data=" + data + ", presente=" + presente + ", matricula=" + matricula + '}';
     }
 
 }

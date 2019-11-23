@@ -5,7 +5,7 @@
  */
 package br.com.mario.util.tablemodel;
 
-import br.com.mario.model.Aluno;
+import br.com.mario.model.Matricula;
 import br.com.mario.util.GenericTableModel;
 import static br.com.mario.util.Util.convertToString;
 import java.util.List;
@@ -14,11 +14,11 @@ import java.util.List;
  *
  * @author mario
  */
-public class AlunoTableModel extends GenericTableModel<Aluno> {
+public class MatriculaTableModel extends GenericTableModel<Matricula> {
 
-    private final String[] colunas = {"Codigo", "Nome", "Endereço", "Telefone", "Nascimento", "Altura", "Peso", "Editar", "Remover"};
+    private final String[] colunas = {"Data", "Aluno", "Turma", "Editar", "Remover"};
 
-    public AlunoTableModel(List<Aluno> rows) {
+    public MatriculaTableModel(List<Matricula> rows) {
         super(rows);
     }
 
@@ -26,22 +26,14 @@ public class AlunoTableModel extends GenericTableModel<Aluno> {
     public Object getValueAt(int row, int column) {
         switch (column) {
             case 0:
-                return rows.get(row).getId();
+                return convertToString(rows.get(row).getDataMatricula());
             case 1:
-                return rows.get(row).getNome();
+                return rows.get(row).getAluno().getNome();
             case 2:
-                return rows.get(row).getEndereco();
+                return rows.get(row).getTurma().getNome();
             case 3:
-                return rows.get(row).getTelefone();
-            case 4:
-                return convertToString(rows.get(row).getNascimento());
-            case 5:
-                return rows.get(row).getAltura();
-            case 6:
-                return rows.get(row).getPeso();
-            case 7:
                 return "Editar";
-            case 8:
+            case 4:
                 return "Remover";
 
         }

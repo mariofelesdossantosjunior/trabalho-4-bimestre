@@ -23,7 +23,6 @@ import javax.swing.text.MaskFormatter;
 public class AlunoFormView extends javax.swing.JDialog {
 
     private final AlunoFormController controller;
-    private final MaskFormatter mfDataMatricula;
     private final MaskFormatter mfNascimento;
     private final MaskFormatter mfTelefone;
     private final GenericComboBoxModel<Turma> turmaModel;
@@ -42,14 +41,10 @@ public class AlunoFormView extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.setTitle("Cadastro de Aluno");
 
-        mfDataMatricula = new MaskFormatter("##/##/####");
-        mfDataMatricula.setPlaceholderCharacter('_');
-        mfDataMatricula.install(tfDataMatricula);
-
         mfNascimento = new MaskFormatter("##/##/####");
         mfNascimento.setPlaceholderCharacter('_');
         mfNascimento.install(tfNascimento);
-        
+
         mfTelefone = new MaskFormatter("(##) #####-####");
         mfTelefone.setPlaceholderCharacter('_');
         mfTelefone.install(tfTelefone);
@@ -83,7 +78,6 @@ public class AlunoFormView extends javax.swing.JDialog {
         btCancelar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
         cbTurma = new javax.swing.JComboBox();
-        tfDataMatricula = new javax.swing.JFormattedTextField();
         tfAltura = new javax.swing.JTextField();
         tfNascimento = new javax.swing.JFormattedTextField();
         tfTelefone = new javax.swing.JFormattedTextField();
@@ -112,10 +106,6 @@ public class AlunoFormView extends javax.swing.JDialog {
         });
 
         cbTurma.setBorder(javax.swing.BorderFactory.createTitledBorder("Turma"));
-
-        tfDataMatricula.setBackground(new java.awt.Color(214, 217, 223));
-        tfDataMatricula.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Matricula"));
-        tfDataMatricula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
         tfAltura.setBackground(new java.awt.Color(214, 217, 223));
         tfAltura.setBorder(javax.swing.BorderFactory.createTitledBorder("Altura"));
@@ -172,9 +162,6 @@ public class AlunoFormView extends javax.swing.JDialog {
                         .addComponent(tfAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(tfPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tfDataMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(tfNome)
                     .addComponent(tfEndereco))
                 .addContainerGap())
@@ -182,9 +169,7 @@ public class AlunoFormView extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tfDataMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(5, 5, 5)
                 .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,7 +181,7 @@ public class AlunoFormView extends javax.swing.JDialog {
                     .addComponent(tfPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -229,7 +214,6 @@ public class AlunoFormView extends javax.swing.JDialog {
     private javax.swing.JButton btSalvar;
     private javax.swing.JComboBox cbTurma;
     private javax.swing.JTextField tfAltura;
-    private javax.swing.JFormattedTextField tfDataMatricula;
     private javax.swing.JTextField tfEndereco;
     private javax.swing.JFormattedTextField tfNascimento;
     private javax.swing.JTextField tfNome;
@@ -239,10 +223,6 @@ public class AlunoFormView extends javax.swing.JDialog {
 
     public AlunoFormController getController() {
         return controller;
-    }
-
-    public MaskFormatter getMfDataMatricula() {
-        return mfDataMatricula;
     }
 
     public MaskFormatter getMfNascimento() {
@@ -267,10 +247,6 @@ public class AlunoFormView extends javax.swing.JDialog {
 
     public JTextField getTfAltura() {
         return tfAltura;
-    }
-
-    public JFormattedTextField getTfDataMatricula() {
-        return tfDataMatricula;
     }
 
     public JFormattedTextField getTfNascimento() {

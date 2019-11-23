@@ -45,7 +45,6 @@ public class AlunoFormController {
     }
 
     private void setValues() throws NumberFormatException {
-        aluno.setDataMatricula(convertToDate(view.getTfDataMatricula().getText()));
         aluno.setNome(view.getTfNome().getText());
         aluno.setEndereco(view.getTfEndereco().getText());
         aluno.setTelefone(view.getTfTelefone().getText());
@@ -58,7 +57,6 @@ public class AlunoFormController {
     public void edit(Aluno aluno) {
         this.aluno = aluno;
 
-        view.getTfDataMatricula().setText(convertToString(aluno.getDataMatricula()));
         view.getTfNome().setText(aluno.getNome());
         view.getTfEndereco().setText(aluno.getEndereco());
         view.getTfTelefone().setText(aluno.getTelefone());

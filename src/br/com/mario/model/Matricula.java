@@ -5,18 +5,28 @@
  */
 package br.com.mario.model;
 
+import java.sql.Date;
+
 /**
  *
  * @author mario
  */
 public class Matricula {
 
+    private int id;
     private Aluno aluno;
     private Turma turma;
+    private Date dataMatricula;
 
-    public Matricula(Aluno aluno, Turma turma) {
-        this.aluno = aluno;
-        this.turma = turma;
+    public Matricula() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Aluno getAluno() {
@@ -35,9 +45,17 @@ public class Matricula {
         this.turma = turma;
     }
 
+    public Date getDataMatricula() {
+        return dataMatricula;
+    }
+
+    public void setDataMatricula(Date dataMatricula) {
+        this.dataMatricula = dataMatricula;
+    }
+
     @Override
     public String toString() {
-        return "Matricula{" + "aluno=" + aluno + ", turma=" + turma + '}';
+        return "Matricula{" + "id=" + id + ", aluno=" + aluno + ", turma=" + turma + ", dataMatricula=" + dataMatricula + '}';
     }
 
 }
