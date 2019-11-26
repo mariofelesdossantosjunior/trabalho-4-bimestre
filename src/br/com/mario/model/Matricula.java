@@ -17,8 +17,17 @@ public class Matricula {
     private Aluno aluno;
     private Turma turma;
     private Date dataMatricula;
+    private boolean status;
 
     public Matricula() {
+    }
+
+    public Matricula(int id, Aluno aluno, Turma turma, Date dataMatricula, boolean status) {
+        this.id = id;
+        this.aluno = aluno;
+        this.turma = turma;
+        this.dataMatricula = dataMatricula;
+        this.status = status;
     }
 
     public int getId() {
@@ -53,9 +62,17 @@ public class Matricula {
         this.dataMatricula = dataMatricula;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Matricula{" + "id=" + id + ", aluno=" + aluno + ", turma=" + turma + ", dataMatricula=" + dataMatricula + '}';
+        return "Matricula{" + "id=" + id + ", aluno=" + aluno + ", turma=" + turma + ", dataMatricula=" + dataMatricula + ", status=" + status + '}';
     }
 
 }

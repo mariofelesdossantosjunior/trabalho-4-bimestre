@@ -5,7 +5,8 @@
  */
 package br.com.mario.model;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -15,8 +16,7 @@ public class Chamada {
 
     private int id;
     private Date data;
-    private boolean presente;
-    private Matricula matricula;
+    List<ItemChamada> itemChamadas;
 
     public Chamada() {
     }
@@ -37,25 +37,17 @@ public class Chamada {
         this.data = data;
     }
 
-    public boolean isPresente() {
-        return presente;
+    public List<ItemChamada> getItemChamadas() {
+        return itemChamadas;
     }
 
-    public void setPresente(boolean presente) {
-        this.presente = presente;
-    }
-
-    public Matricula getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(Matricula matricula) {
-        this.matricula = matricula;
+    public void setItemChamadas(List<ItemChamada> itemChamadas) {
+        this.itemChamadas = itemChamadas;
     }
 
     @Override
     public String toString() {
-        return "Chamada{" + "id=" + id + ", data=" + data + ", presente=" + presente + ", matricula=" + matricula + '}';
+        return "Chamada{" + "id=" + id + ", data=" + data + '}';
     }
 
 }

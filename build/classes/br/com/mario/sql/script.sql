@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `atividade` (
   `nome` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `instrutor` (
   `titulacao` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `turma` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -81,32 +81,7 @@ CREATE TABLE IF NOT EXISTS `aluno` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `matricula`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matricula` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `turma_id` INT(11) NOT NULL,
-  `aluno_id` INT(11) NOT NULL,
-  `data_matricula` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY (`id`),
-  INDEX `fk_matricula_turma1_idx` (`turma_id` ASC),
-  INDEX `fk_matricula_aluno1_idx` (`aluno_id` ASC),
-  CONSTRAINT `fk_matricula_turma1`
-    FOREIGN KEY (`turma_id`)
-    REFERENCES `turma` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_matricula_aluno1`
-    FOREIGN KEY (`aluno_id`)
-    REFERENCES `aluno` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
+AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -115,16 +90,55 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `chamada` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `data` DATE NOT NULL,
-  `presente` TINYINT(1) NOT NULL,
-  `matricula_id` INT NOT NULL,
+  `data` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `matricula`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matricula` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `turma_id` INT(11) NOT NULL,
+  `aluno_id` INT(11) NOT NULL,
+  `data_matricula` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`id`),
-  INDEX `fk_chamada_matricula1_idx` (`matricula_id` ASC),
-  CONSTRAINT `fk_chamada_matricula1`
-    FOREIGN KEY (`matricula_id`)
-    REFERENCES `matricula` (`id`)
+  INDEX `fk_matricula_turma1_idx` (`turma_id` ASC),
+  INDEX `fk_matricula_aluno1_idx` (`aluno_id` ASC),
+  CONSTRAINT `fk_matricula_aluno1`
+    FOREIGN KEY (`aluno_id`)
+    REFERENCES `aluno` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_matricula_turma1`
+    FOREIGN KEY (`turma_id`)
+    REFERENCES `turma` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `item_chamada`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `item_chamada` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `presente` TINYINT(1) NOT NULL DEFAULT 0,
+  `id_matricula` INT(11) NOT NULL,
+  `id_chamada` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `item_chamada_matricula_id_fk` (`id_matricula` ASC),
+  INDEX `item_chamada_chamada_id_fk` (`id_chamada` ASC),
+  CONSTRAINT `item_chamada_chamada_id_fk`
+    FOREIGN KEY (`id_chamada`)
+    REFERENCES `chamada` (`id`),
+  CONSTRAINT `item_chamada_matricula_id_fk`
+    FOREIGN KEY (`id_matricula`)
+    REFERENCES `matricula` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -145,5 +159,5 @@ CREATE TABLE IF NOT EXISTS `telefone` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 23
+AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = utf8;

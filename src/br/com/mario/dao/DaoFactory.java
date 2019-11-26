@@ -51,4 +51,8 @@ public class DaoFactory {
         return new MatriculaDAO(connection);
     }
 
+    public ChamadaDAO chamadaDao() {
+        return new ChamadaDAO(connection);
+    }
+
 }
