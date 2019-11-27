@@ -58,7 +58,8 @@ public class ChamadaFormController {
     public void reloadAlunos() {
         Turma turmaSelect = view.getTurmaModel().getSelectedItem();
 
-        List<Matricula> matriculas = matriculaDAO.findAll().stream()
+        List<Matricula> matriculas = matriculaDAO.findAll()
+                .stream()
                 .filter(matricula -> matricula.getTurma().getId() == turmaSelect.getId())
                 .collect(Collectors.toList());
 

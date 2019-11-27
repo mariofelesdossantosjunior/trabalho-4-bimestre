@@ -33,6 +33,7 @@ public class AlunoFormController {
     }
 
     public boolean merge() {
+        
         if (aluno != null && aluno.getId() != 0) {
             setValues();
             return alunoDAO.update(aluno);

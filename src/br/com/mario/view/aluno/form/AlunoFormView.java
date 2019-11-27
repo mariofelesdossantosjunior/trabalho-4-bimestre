@@ -13,6 +13,7 @@ import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
@@ -196,8 +197,13 @@ public class AlunoFormView extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        controller.merge();
-        dispose();
+        if (controller.merge()) {
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Já existe um aluno como monitor nessa turma!");
+            cbTurma.setSelectedItem(null);
+        }
+
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void tfAlturaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAlturaKeyReleased

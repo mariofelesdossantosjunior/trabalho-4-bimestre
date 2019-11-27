@@ -32,30 +32,27 @@ public class MatriculaDAO implements Dao<Integer, Matricula> {
     public boolean create(Matricula entity) {
         String sql = "INSERT INTO matricula (aluno_id, turma_id, data_matricula) VALUES (?, ?, ?)";
 
-        if (!validate(entity)) {
-            try {
-                PreparedStatement query = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                query.setInt(1, entity.getAluno().getId());
-                query.setInt(2, entity.getTurma().getId());
-                query.setDate(3, entity.getDataMatricula());
+        try {
+            PreparedStatement query = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            query.setInt(1, entity.getAluno().getId());
+            query.setInt(2, entity.getTurma().getId());
+            query.setDate(3, entity.getDataMatricula());
 
-                query.executeUpdate();
-                ResultSet rs = query.getGeneratedKeys();
+            query.executeUpdate();
+            ResultSet rs = query.getGeneratedKeys();
 
-                if (rs.next()) {
-                    entity.setId(rs.getInt(1));
-                }
-
-                query.close();
-                return true;
-
-            } catch (Exception e) {
-                System.out.println("SQL exception ocorred " + e);
-                return false;
+            if (rs.next()) {
+                entity.setId(rs.getInt(1));
             }
-        } else {
+
+            query.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("SQL exception ocorred " + e);
             return false;
         }
+
     }
 
     @Override
@@ -96,25 +93,22 @@ public class MatriculaDAO implements Dao<Integer, Matricula> {
     public boolean update(Matricula entity) {
         String sql = "UPDATE matricula SET turma_id = ?, aluno_id = ?, data_matricula = ? WHERE id = ?";
 
-        if (!validate(entity)) {
-            try {
-                PreparedStatement query = con.prepareStatement(sql);
-                query.setInt(1, entity.getTurma().getId());
-                query.setInt(2, entity.getAluno().getId());
-                query.setDate(3, entity.getDataMatricula());
-                query.setInt(4, entity.getId());
-                query.executeUpdate();
+        try {
+            PreparedStatement query = con.prepareStatement(sql);
+            query.setInt(1, entity.getTurma().getId());
+            query.setInt(2, entity.getAluno().getId());
+            query.setDate(3, entity.getDataMatricula());
+            query.setInt(4, entity.getId());
+            query.executeUpdate();
 
-                query.close();
-                return true;
+            query.close();
+            return true;
 
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                return false;
-            }
-        } else {
+        } catch (SQLException ex) {
+            System.out.println("SQL Exception occured " + ex);
             return false;
         }
+
     }
 
     @Override
@@ -128,7 +122,7 @@ public class MatriculaDAO implements Dao<Integer, Matricula> {
             query.close();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("SQL Exception occured " + ex);
         }
     }
 
@@ -161,7 +155,7 @@ public class MatriculaDAO implements Dao<Integer, Matricula> {
             query.close();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("SQL Exception occured " + ex);
         }
 
         return matriculas;

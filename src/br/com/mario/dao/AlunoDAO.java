@@ -62,6 +62,7 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
             System.out.println("SQL exception occured" + ex);
             return false;
         }
+
     }
 
     @Override
@@ -105,7 +106,7 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
 
     @Override
     public boolean update(Aluno entity) {
-        String sql = "UPDATE aluno SET nome = ?, endereco = ?, telefone = ?, nascimento = ?, altura = ?, peso = ?, turma_id = ? FROM aluno WHERE id = ? ";
+        String sql = "UPDATE aluno SET nome = ?, endereco = ?, telefone = ?, nascimento = ?, altura = ?, peso = ?, turma_id = ? WHERE id = ? ";
 
         try {
             PreparedStatement query = con.prepareStatement(sql);
@@ -115,7 +116,12 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
             query.setDate(4, entity.getNascimento());
             query.setFloat(5, entity.getAltura());
             query.setFloat(6, entity.getPeso());
-            query.setInt(7, entity.getTurma().getId());
+
+            if (entity.getTurma() != null) {
+                query.setInt(7, entity.getTurma().getId());
+            } else {
+                query.setNull(7, Types.INTEGER);
+            }
             query.setInt(8, entity.getId());
 
             query.executeUpdate();
@@ -128,6 +134,7 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
             System.out.println("SQL exception occured" + ex);
             return false;
         }
+
     }
 
     @Override
@@ -182,6 +189,31 @@ public class AlunoDAO implements Dao<Integer, Aluno> {
             System.out.println("SQL exception occured" + ex);
         }
         return alunos;
+    }
+
+    public boolean validate(Aluno aluno) {
+        String sql = "SELECT count(*) as existe "
+                + " FROM aluno "
+                + " WHERE EXISTS (select turma.id from turma where turma.id = ? and aluno.turma_id = turma.id)  ";
+
+        boolean existe = false;
+
+        if (aluno.getTurma() != null) {
+            try (PreparedStatement query = con.prepareStatement(sql)) {
+                query.setInt(1, aluno.getTurma().getId());
+
+                ResultSet rs = query.executeQuery();
+
+                if (rs.next()) {
+                    existe = rs.getInt("existe") > 0;
+                }
+
+            } catch (SQLException e) {
+                System.out.println("SQL Exception occured " + e);
+            }
+        }
+
+        return existe;
     }
 
 }
